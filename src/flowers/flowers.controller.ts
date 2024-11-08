@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { FlowersService } from './flowers.service';
 import { ParseIntPipe } from 'src/conception/pipe';
 import { AuthGuard } from 'src/conception/guard';
@@ -12,5 +12,13 @@ export class FlowersController {
   findAll(@Query('pageNumber', ParseIntPipe) pageNumber: number) {
     console.log(pageNumber);
     return this.flowersService.findAll();
+  }
+  @Post()
+  coordinates(@Body() body: { latitude: number; longitude: number }) {
+    const { latitude, longitude } = body;
+    return {
+      message: 'Coordinates received successfully',
+      data: { latitude, longitude },
+    };
   }
 }
